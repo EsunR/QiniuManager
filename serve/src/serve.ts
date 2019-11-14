@@ -1,14 +1,16 @@
 import Koa from "koa"
 import Router from "koa-router"
 import { sysConfig } from "./config"
+import cors from "@koa/cors"
 
 const app: Koa = new Koa()
 const router: Router = new Router()
 
-router.get("/", (ctx: Router.RouterContext, next: Koa.Next) => {
-  ctx.body = "测试成功"
-})
+app.use(cors())
 
+import userRouter from "./routers/user"
+
+router.use("/api/user", userRouter)
 app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(sysConfig.port)
