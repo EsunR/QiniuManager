@@ -1,17 +1,27 @@
+import { sysConfig } from "./config"
 import Koa from "koa"
 import Router from "koa-router"
-import { sysConfig } from "./config"
 import cors from "@koa/cors"
+import bodyPaser from "koa-bodyparser"
+import errorHandler from "./middle/error_handler"
 
 const app: Koa = new Koa()
 const router: Router = new Router()
 
+// connectTest()
+
+// Middle Wear
+app.use(errorHandler())
 app.use(cors())
+app.use(bodyPaser())
 
-import userRouter from "./routers/user"
-
+// Router
+import userRouter from "./routers/user_router"
+import uploadRouter from "./routers/upload_router"
 router.use("/api/user", userRouter)
+router.use("/api/upload", uploadRouter)
 app.use(router.routes()).use(router.allowedMethods())
 
+// Listen
 app.listen(sysConfig.port)
 console.log(`serve running on http://localhost:${sysConfig.port}`)
