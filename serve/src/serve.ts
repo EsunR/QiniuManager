@@ -4,11 +4,13 @@ import Router from "koa-router"
 import cors from "@koa/cors"
 import bodyPaser from "koa-bodyparser"
 import errorHandler from "./middle/error_handler"
+import dbGenerator from "./db/db_generator"
 
 const app: Koa = new Koa()
 const router: Router = new Router()
 
-// connectTest()
+// Database
+dbGenerator()
 
 // Middle Wear
 app.use(errorHandler())

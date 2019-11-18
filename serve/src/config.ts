@@ -2,7 +2,7 @@
 
 export const sysConfig = {
   port: 2099,
-  pwdSalt: "awsl",
+  pwdSaltRound: 10,
   tokenSalt: "awsl"
 }
 

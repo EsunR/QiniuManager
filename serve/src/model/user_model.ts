@@ -1,7 +1,12 @@
-import sequelize from "../db"
+import db from "../db/index"
 import { DataTypes, Model } from "sequelize"
 
-class User extends Model {}
+class User extends Model {
+  findByName(name: string) {
+    return User.findOne({ where: { name } })
+  }
+}
+
 User.init(
   {
     name: {
@@ -10,15 +15,16 @@ User.init(
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [6, 100]
+      }
     }
   },
   {
-    sequelize,
+    sequelize: db.sequelize,
     modelName: "user"
   }
 )
-
-User.sync()
 
 export default User
