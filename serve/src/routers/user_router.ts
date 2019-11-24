@@ -3,6 +3,7 @@ import controller from "../controller/user_controller"
 const router = new Router()
 
 router.post("/register", controller.register)
-router.get("/login", controller.login)
+router.post("/login", controller.login)
+router.get("/info", controller.getUserInfo)
 
 export default router.routes()

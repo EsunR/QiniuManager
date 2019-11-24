@@ -1,41 +1,47 @@
 import Koa from "koa"
-import User from "../model/user_model"
+import { User, user } from "../model/user_model"
 import ResBody from "../struct/ResBody"
 import bcypt from "../utils/bcypt"
-
-interface user {
-  id: string
-  name: string
-  password: string
-}
+import { Token } from "../model/token_model"
 
 class UserController {
   async register(ctx: Koa.Context) {
     let { name, password } = ctx.request.body
-    const user = User.build({ name, password: bcypt.hash(password) })
-    let data: user = await user.save().catch((e: Error) => {
+    if ((await User.findByName(name)) !== null) {
+      const e = new Error()
       e.message = "用户名已被注册"
       e.status = 400
       throw e
-    })
-    ctx.body = new ResBody({ data: { name: data.name } })
+    }
+    let user: user = await User.createUser(name, password)
+    ctx.body = new ResBody({ data: user })
   }
+
   async login(ctx: Koa.Context) {
     let { name, password } = ctx.request.body
-    let user: user = await User.prototype.findByName(name)
+    let user: user = await User.findByName(name)
     if (user === null) {
       throw new Error("用户名错误")
     }
     let result = bcypt.verify(password, user.password)
     if (result) {
-      // TODO: 生成 token
-      ctx.body = new ResBody({ data: { token: "wulalalalal" } })
+      const token = await Token.createToken(user.id)
+      ctx.body = new ResBody({ data: { token } })
     } else {
-      ctx.body = new ResBody({
-        success: false,
-        msg: "密码错误"
-      })
+      ctx.body = new ResBody({ success: false, msg: "密码错误" })
     }
+  }
+
+  async freshToken(ctx: Koa.Context) {
+    const { tokenId, userId } = ctx.state.user
+    // 1. 检查距离Token的过期时间
+    // 2. 如果相差超过一半时间，就创建一个新Token并返回
+    // 3. 否则返回true
+  }
+
+  async getUserInfo(ctx: Koa.Context) {
+    const { tokenId, userId } = ctx.state.user
+    ctx.body = new ResBody({ data: { user: "userInfo" } })
   }
 }
 
