@@ -1,5 +1,5 @@
 import db from "../db"
-import { Model, DataTypes } from "sequelize"
+import { Model, DataTypes, where } from "sequelize"
 import { sysConfig } from "../config"
 import { User } from "./user_model"
 import { getToken } from "../utils/jwt"
@@ -20,14 +20,17 @@ class Token extends Model {
     return "Bearer " + getToken({ userId: userId, tokenId: token.id })
   }
 
-  static async hasToken(tokenId: string): Promise<boolean> {
+  static async hasToken(tokenId: number): Promise<boolean> {
     const token = await Token.findOne({ where: { id: tokenId } })
-    console.log("token: ", token)
     if (token === null) {
       return false
     } else {
       return true
     }
+  }
+
+  static async deleteById(tokenId: number): Promise<void> {
+    await Token.destroy({ where: { id: tokenId } })
   }
 }
 

@@ -3,6 +3,7 @@ import { User, user } from "../model/user_model"
 import ResBody from "../struct/ResBody"
 import bcypt from "../utils/bcypt"
 import { Token } from "../model/token_model"
+import { sysConfig } from "../config"
 
 class UserController {
   async register(ctx: Koa.Context) {
@@ -32,16 +33,25 @@ class UserController {
     }
   }
 
-  async freshToken(ctx: Koa.Context) {
-    const { tokenId, userId } = ctx.state.user
-    // 1. 检查距离Token的过期时间
-    // 2. 如果相差超过一半时间，就创建一个新Token并返回
-    // 3. 否则返回true
-  }
-
   async getUserInfo(ctx: Koa.Context) {
-    const { tokenId, userId } = ctx.state.user
-    ctx.body = new ResBody({ data: { user: "userInfo" } })
+    let token = ctx.req.headers.authorization
+    const { tokenId, userId, exp } = ctx.state.user
+    // 1. 检查距离Token的过期时间
+    const current: number = parseInt(String(new Date().valueOf() / 1000))
+    if (exp - current < sysConfig.tokenExp / 2) {
+      // 2. 如果相差超过一半时间，就创建一个新Token并返回
+      Token.deleteById(tokenId)
+      token = await Token.createToken(userId)
+    }
+    // 获取用户信息
+    const user: user = await User.findById(userId)
+    ctx.body = new ResBody({
+      data: {
+        id: user.id,
+        name: user.name,
+        token: token
+      }
+    })
   }
 }
 

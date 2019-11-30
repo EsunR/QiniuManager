@@ -4,7 +4,7 @@ export const sysConfig = {
   port: 2099,
   pwdSaltRound: 10,
   tokenSalt: "awsl",
-  tokenExp: "168h", // 7 Days
+  tokenExp: 3600 * 24 * 7, // 7 Days
   maxDevice: 3
 }
 

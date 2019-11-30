@@ -10,6 +10,9 @@ class User extends Model {
   static findByName(name: string): Promise<user | null> {
     return User.findOne({ where: { name } })
   }
+  static findById(id: number): Promise<user | null> {
+    return User.findOne({ where: { id } })
+  }
 }
 
 User.init(
