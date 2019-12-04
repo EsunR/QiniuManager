@@ -1,23 +1,17 @@
 module.exports = {
   root: true,
-  env: {
-    "node": true
-  },
   parserOptions: {
-    "parser": "babel-eslint"
+    parser: "babel-eslint"
   },
   plugins: ["prettier"],
-  extends: [
-    "prettier",
-    "plugin:vue/essential",
-    "eslint:recommended"
-  ],
+  extends: ["prettier", "plugin:vue/essential", "eslint:recommended"],
   parserOptions: {
     sourceType: "module",
     ecmaVersion: 2015
   },
   env: {
-    browser: true
+    browser: true,
+    node: true
   },
   rules: {
     // 启用 prettier
@@ -62,4 +56,4 @@ module.exports = {
     // 必须使用双引号包裹字符串
     quotes: ["error", "double"]
   }
-};
+}
