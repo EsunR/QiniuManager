@@ -1,58 +1,61 @@
 <template>
-  <div class="page-container">
-    <md-app md-mode="reveal">
-      <md-app-toolbar>
-        <md-button class="md-icon-button" @click="menuVisible = !menuVisible">
-          <md-icon>menu</md-icon>
-        </md-button>
-        <span class="md-title">Qiniu Manager</span>
-      </md-app-toolbar>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          transition="scale-transition"
+          width="40"
+        />
 
-      <md-app-drawer :md-active.sync="menuVisible">
-        <md-toolbar class="md-transparent" md-elevation="0">
-          Edit By EsunR
-        </md-toolbar>
-        <md-list>
-          <md-list-item>
-            <md-icon>home</md-icon>
-            <span class="md-list-item-text">首页</span>
-          </md-list-item>
-        </md-list>
-      </md-app-drawer>
+        <v-img
+          alt="Vuetify Name"
+          class="shrink mt-1 hidden-sm-and-down"
+          contain
+          min-width="100"
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          width="100"
+        />
+      </div>
 
-      <md-app-content>
-        <div class="main-container">
-          <router-view></router-view>
-        </div>
-      </md-app-content>
-    </md-app>
-  </div>
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-content>
+      <HelloWorld/>
+    </v-content>
+  </v-app>
 </template>
 
-<style lang="scss" scoped>
-html {
-  font-size: 16px;
-}
-.md-app {
-  height: calc(100vh);
-  border: 1px solid rgba(#000, 0.12);
-  font-size: 1rem;
-}
-.md-drawer {
-  width: 230px;
-  max-width: calc(100vw - 125px);
-}
-.main-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-</style>
+<script lang="ts">
+import Vue from 'vue';
+import HelloWorld from './components/HelloWorld.vue';
 
-<script>
-export default {
-  name: "Reveal",
+export default Vue.extend({
+  name: 'App',
+
+  components: {
+    HelloWorld,
+  },
+
   data: () => ({
-    menuVisible: false
-  })
-}
+    //
+  }),
+});
 </script>
