@@ -12,6 +12,7 @@
     "core-js": "^2.6.5",
     "material-design-icons": "^3.0.1",
     "mysql2": "^2.0.0",
+    "typescript": "^3.7.3",
     "vue": "^2.6.10",
     "vue-material": "^1.0.0-beta-11",
     "vue-router": "^3.0.3",
