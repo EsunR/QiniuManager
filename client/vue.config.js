@@ -1,11 +1,24 @@
+const path = require("path")
+
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        "@": "D:\\Code\\GitProject\\Qiniu-Serve\\client\\src",
-        components:
-          "D:\\Code\\GitProject\\Qiniu-Serve\\client\\src\\components",
-        views: "D:\\Code\\GitProject\\Qiniu-Serve\\client\\src\\views"
+        "@": resolve("src"),
+        components: resolve("src/components"),
+        views: resolve("src/views")
+      }
+    }
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        // eslint-disable-next-line quotes
+        prependData: `@import "~@/style/variable.scss"`
       }
     }
   },

@@ -1,18 +1,15 @@
 <template>
-  <div>
-    <div class="my-2">
-      <v-btn small disabled>Disabled</v-btn>
-    </div>
-  </div>
+  <layout />
 </template>
 
 <script>
 import Vue from "vue"
+import Layout from "@/layout"
 
 export default Vue.extend({
   name: "App",
-  data: () => ({
-    //
-  })
+  components: {
+    Layout
+  }
 })
 </script>
