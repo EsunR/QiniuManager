@@ -18,7 +18,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // eslint-disable-next-line quotes
-        prependData: `@import "~@/style/variable.scss"`
+        // prependData: `@import "~@/style/variable.scss"`
       }
     }
   },
