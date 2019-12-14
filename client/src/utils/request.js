@@ -5,17 +5,15 @@ import router from "@/router"
 
 const service = axios.create({
   baseURL: config.baseURL,
-  timeout: 7000,
-  headers: {
-    common: {
-      Authorization: window.localStorage.getItem("token")
-    }
-  }
+  timeout: 7000
 })
 
 service.interceptors.request.use(
   config => {
-    console.log(window.localStorage.getItem("token"))
+    // 由于 Token 是动态刷新的所以在每次请求前都要重新取 Token
+    config.headers.common["Authorization"] = window.localStorage.getItem(
+      "token"
+    )
     return config
   },
   error => {
