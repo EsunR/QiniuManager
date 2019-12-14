@@ -32,7 +32,7 @@
       dark
       shrink-on-scroll
       prominent
-      src="http://img.cdn.esunr.xyz/18-12-27/80121584.jpg"
+      :src="this.$global.img"
       fade-img-on-scroll
       scroll-threshold="500"
       app

@@ -43,7 +43,7 @@ class UserController {
       Token.deleteById(tokenId)
       token = await Token.createToken(userId)
     }
-    // 获取用户信息
+    // 获取用户信息，前端在拿到用户信息后必须重新 set token，保证 token 为最新的
     const user: user = await User.findById(userId)
     ctx.body = new ResBody({
       data: {

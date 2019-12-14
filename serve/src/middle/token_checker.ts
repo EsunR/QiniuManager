@@ -8,6 +8,7 @@ export default function() {
       if ((await Token.hasToken(tokenId)) === false) {
         const e = new Error()
         e.message = "Token 已过期"
+        e.status = 401
         throw e
       } else {
         await next()

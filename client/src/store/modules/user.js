@@ -1,18 +1,28 @@
+import { fetchUserInfo } from "@/api/user"
+
 const state = {
-  name: "",
-  token: ""
+  name: ""
 }
 
 const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
-  },
-  SET_TOKEN: (state, token) => {
-    state.name = token
   }
 }
 
-const actions = {}
+const actions = {
+  getUserInfo({ commit }) {
+    fetchUserInfo()
+      .then(res => {
+        const { name, token } = res.data
+        window.localStorage.setItem("token", token)
+        commit("SET_NAME", name)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
 
 export default {
   namespaced: true,

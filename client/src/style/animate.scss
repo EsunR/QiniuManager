@@ -1,0 +1,14 @@
+.slideBottomToTop-enter-active,
+.slideBottomToTop-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slideBottomToTop-enter {
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.slideBottomToTop-leave-to {
+  transform: translateY(-50px);
+  opacity: 0;
+}
