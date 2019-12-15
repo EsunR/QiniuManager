@@ -32,6 +32,10 @@ app.use(tokenChecker())
 // Router
 import userRouter from "./routers/user_router"
 import uploadRouter from "./routers/upload_router"
+router.get("/api/test", async (ctx: Koa.Context, next: Koa.Next) => {
+  ctx.body = "api serve ok!"
+  await next()
+})
 router.use("/api/user", userRouter)
 router.use("/api/upload", uploadRouter)
 app.use(router.routes()).use(router.allowedMethods())

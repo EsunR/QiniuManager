@@ -1,6 +1,6 @@
 interface options {
   success?: boolean
-  data?: object
+  data?: object | null
   msg?: string
 }
 export default class ResBody {

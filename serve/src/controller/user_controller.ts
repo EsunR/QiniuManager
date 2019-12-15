@@ -9,20 +9,21 @@ class UserController {
   async register(ctx: Koa.Context) {
     let { name, password } = ctx.request.body
     if ((await User.findByName(name)) !== null) {
-      const e = new Error()
-      e.message = "用户名已被注册"
-      e.status = 400
+      const e = new Error("用户名已被注册")
+      // e.status = 400
       throw e
     }
-    let user: user = await User.createUser(name, password)
+    let user = await User.createUser(name, password)
     ctx.body = new ResBody({ data: user })
   }
 
   async login(ctx: Koa.Context) {
     let { name, password } = ctx.request.body
-    let user: user = await User.findByName(name)
+    let user: user | null = await User.findByName(name)
     if (user === null) {
-      throw new Error("用户名错误")
+      let e = new Error("用户名错误")
+      // e.status = 400
+      throw e
     }
     let result = bcypt.verify(password, user.password)
     if (result) {
@@ -44,14 +45,20 @@ class UserController {
       token = await Token.createToken(userId)
     }
     // 获取用户信息，前端在拿到用户信息后必须重新 set token，保证 token 为最新的
-    const user: user = await User.findById(userId)
-    ctx.body = new ResBody({
-      data: {
-        id: user.id,
-        name: user.name,
-        token: token
-      }
-    })
+    const user: user | null = await User.findById(userId)
+    if (user !== null) {
+      ctx.body = new ResBody({
+        data: {
+          id: user.id,
+          name: user.name,
+          token: token
+        }
+      })
+    } else {
+      let e = new Error("未找到相关用户信息")
+      // e.status = 404
+      throw e
+    }
   }
 }
 
