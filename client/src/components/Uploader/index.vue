@@ -1,18 +1,14 @@
 <template>
-  <div id="home">
-    <uploader />
+  <div class="uploader">
+    上传文件
   </div>
 </template>
 
 <script>
-import Uploader from "@/components/Uploader"
 export default {
-  name: "home",
+  name: "Uploader",
   data() {
     return {}
-  },
-  components: {
-    Uploader
   }
 }
 </script>

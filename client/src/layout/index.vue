@@ -7,7 +7,7 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>John Leider</v-list-item-title>
+          <v-list-item-title>{{ username }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -71,6 +71,11 @@ export default {
         { title: "主页", icon: "mdi-home-variant" },
         { title: "个人中心", icon: "mdi-account-circle" }
       ]
+    }
+  },
+  computed: {
+    username() {
+      return this.$store.getters.name
     }
   }
 }
