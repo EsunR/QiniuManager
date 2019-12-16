@@ -1,5 +1,3 @@
-// import SysConfig from "types/sysConfig"
-
 export const sysConfig = {
   port: 2099,
   pwdSaltRound: 10,
