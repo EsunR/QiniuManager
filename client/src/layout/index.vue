@@ -1,11 +1,11 @@
 <template>
   <v-app id="app-main">
+    <!-- 侧边栏 -->
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list-item>
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
         </v-list-item-avatar>
-
         <v-list-item-content>
           <v-list-item-title>{{ username }}</v-list-item-title>
         </v-list-item-content>
@@ -26,6 +26,7 @@
       </v-list>
     </v-navigation-drawer>
 
+    <!-- 顶部栏 -->
     <v-app-bar
       absolute
       color="#2E4571"
@@ -41,7 +42,6 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Qiniu Manager</v-toolbar-title>
       <v-spacer></v-spacer>
-
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
@@ -53,6 +53,7 @@
       </v-btn>
     </v-app-bar>
 
+    <!-- 内容 -->
     <v-content>
       <v-container id="app-container" fluid>
         <router-view></router-view>
