@@ -1,11 +1,13 @@
 <template>
   <div class="uploader">
-    <div class="preview">
+    <!-- 预览组 -->
+    <div class="preview card">
       <div class="preview-row">
+        <!-- 预览方块 -->
         <div class="preview-col" v-for="file in fileList" :key="file.id">
           <div class="preview-item">
-            <div class="mask" @click="handleRemove(file.id)">
-              <v-btn color="error" fab>
+            <div class="mask">
+              <v-btn color="error" fab small @click="handleRemove(file.id)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </div>
@@ -19,18 +21,24 @@
             </div>
           </div>
         </div>
+        <!-- 拖拽上传方块 -->
         <div
           v-if="fileList.length < 8"
           class="preview-col"
           :style="{ width: fileList.length === 0 ? '100%' : '25%' }"
         >
-          <label for="uploadInput" class="preview-item upload-dropper">
+          <label
+            for="uploadInput"
+            class="preview-item upload-dropper"
+            :class="{ 'upload-dropper-single': fileList.length === 0 }"
+          >
             <i class="mdi mdi-comment-plus-outline"></i>
             <span class="text">点击或拖拽上传</span>
           </label>
         </div>
       </div>
     </div>
+    <!-- 上传控件本体 -->
     <input
       id="uploadInput"
       ref="uploadInput"
@@ -39,15 +47,31 @@
       accept="image/*"
       multiple
     />
+    <!-- 功能区 -->
+    <div class="opration card">
+      <Input v-if="uploadSuccess" v-model="inputValue" />
+      <Process :success="uploadSuccess" v-else />
+      <Button> <i class="mdi mdi-cloud-upload"></i> 确认上传 </Button>
+    </div>
   </div>
 </template>
 
 <script>
+import Button from "./subcomponents/Button"
+import Input from "./subcomponents/Input"
+import Process from "./subcomponents/Process"
 export default {
   name: "Uploader",
+  components: {
+    Button,
+    Input,
+    Process
+  },
   data() {
     return {
-      fileList: []
+      fileList: [],
+      inputValue: "",
+      uploadSuccess: true
     }
   },
   mounted() {
@@ -56,6 +80,7 @@ export default {
     document.addEventListener("drop", this.handleDrop)
   },
   methods: {
+    // 点击上传
     handleSelect() {
       /** @type {HTMLInputElement} */
       let input = this.$refs.uploadInput
@@ -66,6 +91,7 @@ export default {
     handleRemove(id) {
       this.fileList = this.fileList.filter(file => file.id !== id)
     },
+    // 拖拽上传
     handleDragenter(/** @type {Event} */ e) {
       e.preventDefault()
     },
@@ -111,6 +137,14 @@ export default {
   display: none;
 }
 
+.card {
+  box-shadow: 0 2px 3px rgba($color: #000000, $alpha: 0.1);
+  border: 1px solid rgba($color: #000000, $alpha: 0.1);
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
 .preview-row {
   display: flex;
   flex-wrap: wrap;
@@ -129,9 +163,7 @@ export default {
   min-height: 272px;
   max-height: 522px;
   box-sizing: border-box;
-  border: 1px solid rgba($color: #000000, $alpha: 0.1);
-  padding: 20px;
-  border-radius: 5px;
+  user-select: none;
   .preview-item {
     position: relative;
     border-radius: 5px;
@@ -176,7 +208,7 @@ export default {
     align-items: center;
     color: rgba($color: #000000, $alpha: 0.3);
     border: 1px dashed rgba($color: #000000, $alpha: 0.1);
-    background-color: #f7f7f7;
+    background-color: #e9e9e9;
     cursor: pointer;
     &:hover {
       color: rgba($color: #000000, $alpha: 0.5);
@@ -188,5 +220,16 @@ export default {
       font-weight: 100;
     }
   }
+  .upload-dropper-single {
+    &:hover {
+      color: rgba($color: #000000, $alpha: 0.5);
+      transform: scale(1);
+    }
+  }
+}
+
+.opration {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
