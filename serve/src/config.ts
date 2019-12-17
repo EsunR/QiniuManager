@@ -1,4 +1,5 @@
 export const sysConfig = {
+  host: "localhost",
   port: 2099,
   pwdSaltRound: 10,
   tokenSalt: "awsl",

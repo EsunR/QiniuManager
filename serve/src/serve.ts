@@ -21,6 +21,7 @@ app.use(bodyPaser())
 app.use(
   koaJwt({ secret: sysConfig.tokenSalt }).unless({
     path: [
+      /^\/api\/test/,
       /^\/api\/user\/login/,
       /^\/api\/user\/register/,
       /^((?!\/api).)*$/ // 设置除了私有接口外的其它资源，可以不需要认证访问
@@ -33,7 +34,7 @@ app.use(tokenChecker())
 import userRouter from "./routers/user_router"
 import uploadRouter from "./routers/upload_router"
 router.get("/api/test", async (ctx: Koa.Context, next: Koa.Next) => {
-  ctx.body = "api serve ok!"
+  ctx.body = "api serve is ok!"
   await next()
 })
 router.use("/api/user", userRouter)
@@ -41,5 +42,5 @@ router.use("/api/upload", uploadRouter)
 app.use(router.routes()).use(router.allowedMethods())
 
 // Listen
-app.listen(sysConfig.port)
-console.log(`serve running on http://localhost:${sysConfig.port}`)
+app.listen(sysConfig.port, sysConfig.host)
+console.log(`serve running on http://${sysConfig.host}:${sysConfig.port}`)
