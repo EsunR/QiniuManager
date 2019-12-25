@@ -1,12 +1,17 @@
 <template>
-  <button class="uploader-btn">
+  <button @click="handleClick" class="uploader-btn">
     <slot></slot>
   </button>
 </template>
 
 <script>
 export default {
-  name: "Button"
+  name: "Button",
+  methods: {
+    handleClick(e) {
+      this.$emit("click", e)
+    }
+  }
 }
 </script>
 

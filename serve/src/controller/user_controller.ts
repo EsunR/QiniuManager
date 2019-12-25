@@ -10,7 +10,7 @@ class UserController {
     let { name, password } = ctx.request.body
     if ((await User.findByName(name)) !== null) {
       const e = new Error("用户名已被注册")
-      // e.status = 400
+      e.status = 400
       throw e
     }
     let user = await User.createUser(name, password)
@@ -22,7 +22,7 @@ class UserController {
     let user: user | null = await User.findByName(name)
     if (user === null) {
       let e = new Error("用户名错误")
-      // e.status = 400
+      e.status = 400
       throw e
     }
     let result = bcypt.verify(password, user.password)

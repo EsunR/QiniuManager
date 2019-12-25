@@ -23,6 +23,9 @@ class UploadController {
       }
     })
   }
+  async uploadFile(ctx: Koa.Context) {
+    console.log(ctx.body)
+  }
 }
 
 export default new UploadController()

@@ -51,7 +51,9 @@
     <div class="opration card">
       <Input v-if="uploadSuccess" v-model="inputValue" />
       <Process :success="uploadSuccess" v-else />
-      <Button> <i class="mdi mdi-cloud-upload"></i> 确认上传 </Button>
+      <Button @click="handleSubmitUpload">
+        <i class="mdi mdi-cloud-upload"></i> 确认上传
+      </Button>
     </div>
   </div>
 </template>
@@ -60,6 +62,7 @@
 import Button from "./subcomponents/Button"
 import Input from "./subcomponents/Input"
 import Process from "./subcomponents/Process"
+import axios from "axios"
 export default {
   name: "Uploader",
   components: {
@@ -112,7 +115,7 @@ export default {
           })
           return false
         }
-        file.id = new Date().valueOf() - file.size
+        file.id = new Date().valueOf() - file.size * Math.random()
         this.fileList.push(file)
         this.$nextTick(() => {
           Array.prototype.forEach.call(this.$refs.img, img => {
@@ -124,6 +127,11 @@ export default {
           })
         })
       })
+    },
+    // 上传图片
+    handleSubmitUpload() {
+      console.log(this.fileList)
+      axios.post()
     },
     createUrl(file) {
       return window.URL.createObjectURL(file)
