@@ -62,7 +62,6 @@
 import Button from "./subcomponents/Button"
 import Input from "./subcomponents/Input"
 import Process from "./subcomponents/Process"
-import axios from "axios"
 export default {
   name: "Uploader",
   components: {
@@ -130,8 +129,7 @@ export default {
     },
     // 上传图片
     handleSubmitUpload() {
-      console.log(this.fileList)
-      axios.post()
+      this.$emit("upload", this.fileList)
     },
     createUrl(file) {
       return window.URL.createObjectURL(file)

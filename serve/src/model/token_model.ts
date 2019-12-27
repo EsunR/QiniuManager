@@ -1,10 +1,11 @@
 import db from "../db"
-import { Model, DataTypes, where } from "sequelize"
+import { Model, DataTypes } from "sequelize"
 import { sysConfig } from "../config"
-import { User } from "./user_model"
+import User from "./user_model"
 import { getToken } from "../utils/jwt"
 
 class Token extends Model {
+  public id!: number
   static async createToken(userId: number): Promise<string> {
     // 1. 列出数据库已有token
     const tokens: Array<Model> = await Token.findAll({ where: { userId } })
@@ -12,11 +13,10 @@ class Token extends Model {
     if (tokens.length >= sysConfig.maxDevice) {
       for (let i = 0; i <= tokens.length - sysConfig.maxDevice; i++) {
         await tokens[i].destroy()
-        console.log("删除了一条数据")
       }
     }
     // 3. 生成一条记录并返回这条记录
-    const token: token = await Token.build({ userId }).save()
+    const token = await Token.build({ userId }).save()
     return "Bearer " + getToken({ userId: userId, tokenId: token.id })
   }
 
@@ -50,11 +50,4 @@ Token.init(
   }
 )
 
-interface token {
-  id: number
-  uid: number
-  createdAt: Date
-  updateAt: Date
-}
-
-export { Token, token }
+export default Token

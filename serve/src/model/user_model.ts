@@ -2,7 +2,20 @@ import db from "../db/index"
 import { DataTypes, Model, Promise } from "sequelize"
 import bcypt from "../utils/bcypt"
 
+interface user {
+  id: number
+  name: string
+  password: string
+  createdAt: Date
+  updateAt: Date
+}
+
 class User extends Model {
+  public id!: number
+  public name!: string
+  public password!: string
+  public createdAt!: Date
+  public updateAt!: Date
   static createUser(name: string, password: string): Promise<user | null> {
     const user = User.build({ name, password: bcypt.hash(password) })
     return user.save()
@@ -41,12 +54,4 @@ User.init(
   }
 )
 
-interface user {
-  id: number
-  name: string
-  password: string
-  createdAt: Date
-  updateAt: Date
-}
-
-export { User, user }
+export default User

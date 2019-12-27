@@ -2,7 +2,8 @@ import { sysConfig } from "./config"
 import Koa from "koa"
 import Router from "koa-router"
 import cors from "@koa/cors"
-import bodyPaser from "koa-bodyparser"
+// import bodyPaser from "koa-bodyparser"
+import KoaBody from "koa-body"
 import errorHandler from "./middle/error_handler"
 import tokenChecker from "./middle/token_checker"
 import dbGenerator from "./db/db_generator"
@@ -17,7 +18,14 @@ dbGenerator()
 // Middle Wear
 app.use(errorHandler())
 app.use(cors())
-app.use(bodyPaser())
+app.use(
+  KoaBody({
+    multipart: true,
+    formidable: {
+      maxFieldsSize: 2000 * 1024 * 1024
+    }
+  })
+)
 app.use(
   koaJwt({ secret: sysConfig.tokenSalt }).unless({
     path: [

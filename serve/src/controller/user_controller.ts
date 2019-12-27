@@ -1,8 +1,8 @@
 import Koa from "koa"
-import { User, user } from "../model/user_model"
+import User from "../model/user_model"
 import ResBody from "../struct/ResBody"
 import bcypt from "../utils/bcypt"
-import { Token } from "../model/token_model"
+import Token from "../model/token_model"
 import { sysConfig } from "../config"
 
 class UserController {
@@ -19,7 +19,7 @@ class UserController {
 
   async login(ctx: Koa.Context) {
     let { name, password } = ctx.request.body
-    let user: user | null = await User.findByName(name)
+    let user = await User.findByName(name)
     if (user === null) {
       let e = new Error("用户名错误")
       e.status = 400
@@ -45,7 +45,7 @@ class UserController {
       token = await Token.createToken(userId)
     }
     // 获取用户信息，前端在拿到用户信息后必须重新 set token，保证 token 为最新的
-    const user: user | null = await User.findById(userId)
+    const user = await User.findById(userId)
     if (user !== null) {
       ctx.body = new ResBody({
         data: {

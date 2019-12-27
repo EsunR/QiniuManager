@@ -1,4 +1,4 @@
-import { Token, token } from "../model/token_model"
+import Token from "../model/token_model"
 import Koa from "koa"
 
 export default function() {

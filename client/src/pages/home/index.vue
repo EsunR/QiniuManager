@@ -1,11 +1,12 @@
 <template>
   <div id="home">
-    <uploader />
+    <uploader @upload="handleUpload" />
   </div>
 </template>
 
 <script>
 import Uploader from "@/components/Uploader"
+import { uploadImage } from "@/api/upload"
 export default {
   name: "home",
   data() {
@@ -13,6 +14,13 @@ export default {
   },
   components: {
     Uploader
+  },
+  methods: {
+    handleUpload(files) {
+      uploadImage(files).then(res => {
+        console.log(res)
+      })
+    }
   }
 }
 </script>

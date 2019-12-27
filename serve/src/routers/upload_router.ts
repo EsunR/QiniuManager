@@ -4,6 +4,6 @@ const router = new Router()
 
 router.get("/test", controller.test)
 router.get("/getUploadToken", controller.getUploadToken)
-router.post("/uploadFile", controller.uploadFile)
+router.post("/uploadImage", controller.uploadImage)
 
 export default router.routes()
