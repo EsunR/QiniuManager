@@ -49,11 +49,20 @@
     />
     <!-- 功能区 -->
     <div class="opration card">
-      <Input v-if="uploadSuccess" v-model="inputValue" />
-      <Process :success="uploadSuccess" v-else />
-      <Button @click="handleSubmitUpload">
-        <i class="mdi mdi-cloud-upload"></i> 确认上传
-      </Button>
+      <div class="left-wrapper">
+        <transition name="fade">
+          <Input v-if="!uploading" v-model="inputValue" />
+          <Process :success="!uploading" v-else />
+        </transition>
+      </div>
+      <div class="right-wrapper">
+        <Button
+          @click="handleSubmitUpload"
+          :disabled="uploading || fileList.length === 0"
+        >
+          <i class="mdi mdi-cloud-upload"></i> 确认上传
+        </Button>
+      </div>
     </div>
   </div>
 </template>
@@ -74,6 +83,12 @@ export default {
       fileList: [],
       inputValue: "",
       uploadSuccess: true
+    }
+  },
+  props: {
+    uploading: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -237,5 +252,25 @@ export default {
 .opration {
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
+  .left-wrapper {
+    width: 100%;
+    padding-right: 20px;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+.fade-enter {
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.fade-leave-to {
+  transform: translateY(-50px);
+  opacity: 0;
 }
 </style>

@@ -26,8 +26,8 @@ export default {
   watch: {
     success(newVal) {
       if (newVal === true) {
-        clearInterval(this.timmer)
         this.process = 100
+        clearInterval(this.timmer)
       }
     }
   },
@@ -35,8 +35,11 @@ export default {
     processing() {
       this.timmer = setInterval(() => {
         this.process = this.process + ((100 - this.process) / 2) * Math.random()
-      }, 1500 * Math.random())
+      }, 250 * Math.random())
     }
+  },
+  beforeDestroy() {
+    this.process = 100
   }
 }
 </script>
@@ -44,14 +47,17 @@ export default {
 <style lang="scss" scoped>
 .process {
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   padding-right: 20px;
 }
 .wrapper {
-  height: 3px;
+  height: 10px;
   width: 100%;
   background-color: #a3ccec;
+  border-radius: 100px;
+  overflow: hidden;
 }
 .inner {
   height: 100%;

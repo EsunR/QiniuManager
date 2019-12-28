@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <uploader @upload="handleUpload" />
+    <uploader @upload="handleUpload" :uploading="uploading" />
   </div>
 </template>
 
@@ -10,16 +10,33 @@ import { uploadImage } from "@/api/upload"
 export default {
   name: "home",
   data() {
-    return {}
+    return {
+      uploading: false,
+      uploaded: []
+    }
   },
   components: {
     Uploader
   },
   methods: {
     handleUpload(files) {
-      uploadImage(files).then(res => {
-        console.log(res)
-      })
+      const startTime = new Date()
+      this.uploading = true
+      uploadImage(files)
+        .then(res => {
+          const costTime = new Date() - startTime
+          const delayTime = 1500 - costTime > 0 ? 1500 - costTime : 0
+          const { data } = res
+          setTimeout(() => {
+            this.uploading = false
+            data.forEach(imgInfo => {
+              this.uploaded.push(imgInfo)
+            })
+          }, delayTime)
+        })
+        .catch(() => {
+          this.uploading = false
+        })
     }
   }
 }

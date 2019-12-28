@@ -1,5 +1,9 @@
 <template>
-  <button @click="handleClick" class="uploader-btn">
+  <button
+    :disabled="disabled"
+    @click="handleClick"
+    :class="{ 'uploader-btn': true, disabled: disabled }"
+  >
     <slot></slot>
   </button>
 </template>
@@ -7,6 +11,12 @@
 <script>
 export default {
   name: "Button",
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     handleClick(e) {
       this.$emit("click", e)
@@ -33,6 +43,13 @@ export default {
   &:active {
     background-color: #0f8ef7;
     box-shadow: none;
+  }
+}
+.disabled {
+  background-color: #aeb4b9;
+  cursor: not-allowed;
+  &:hover {
+    background-color: #aeb4b9;
   }
 }
 </style>
