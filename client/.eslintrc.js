@@ -7,7 +7,7 @@ module.exports = {
   extends: ["prettier", "plugin:vue/essential", "eslint:recommended"],
   parserOptions: {
     sourceType: "module",
-    ecmaVersion: 2015
+    ecmaVersion: 2017
   },
   env: {
     browser: true,

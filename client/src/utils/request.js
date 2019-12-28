@@ -5,7 +5,7 @@ import router from "@/router"
 
 const service = axios.create({
   baseURL: config.baseURL,
-  timeout: 7000
+  timeout: 10000
 })
 
 service.interceptors.request.use(
@@ -32,6 +32,12 @@ service.interceptors.response.use(
     }
   },
   err => {
+    if (!err.response) {
+      Message({
+        type: "error",
+        message: err
+      })
+    }
     const { status, data } = err.response
     switch (status) {
       case 401:

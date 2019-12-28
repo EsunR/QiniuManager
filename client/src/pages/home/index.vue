@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <uploader @upload="handleUpload" :uploading="uploading" />
+    <uploader ref="uploader" @upload="handleUpload" :uploading="uploading" />
   </div>
 </template>
 
@@ -19,24 +19,34 @@ export default {
     Uploader
   },
   methods: {
-    handleUpload(files) {
-      const startTime = new Date()
+    async handleUpload(files) {
+      // const startTime = new Date()
       this.uploading = true
-      uploadImage(files)
-        .then(res => {
-          const costTime = new Date() - startTime
-          const delayTime = 1500 - costTime > 0 ? 1500 - costTime : 0
-          const { data } = res
-          setTimeout(() => {
-            this.uploading = false
-            data.forEach(imgInfo => {
-              this.uploaded.push(imgInfo)
-            })
-          }, delayTime)
-        })
-        .catch(() => {
-          this.uploading = false
-        })
+      for (let file of files) {
+        try {
+          let res = await uploadImage(file)
+          this.$refs.uploader.removeImage(file)
+          this.uploaded.push(res.data[0])
+        } catch (e) {
+          console.log(e)
+        }
+      }
+      this.uploading = false
+      //   uploadImage(files)
+      //     .then(res => {
+      //       const costTime = new Date() - startTime
+      //       const delayTime = 1500 - costTime > 0 ? 1500 - costTime : 0
+      //       const { data } = res
+      //       setTimeout(() => {
+      //         this.uploading = false
+      //         data.forEach(imgInfo => {
+      //           this.uploaded.push(imgInfo)
+      //         })
+      //       }, delayTime)
+      //     })
+      //     .catch(() => {
+      //       this.uploading = false
+      //     })
     }
   }
 }

@@ -35,7 +35,7 @@ export default {
     processing() {
       this.timmer = setInterval(() => {
         this.process = this.process + ((100 - this.process) / 2) * Math.random()
-      }, 250 * Math.random())
+      }, 1000 * Math.random())
     }
   },
   beforeDestroy() {

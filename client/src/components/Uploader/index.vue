@@ -2,19 +2,23 @@
   <div class="uploader">
     <!-- 预览组 -->
     <div class="preview card">
+      <div class="uploading-mask" v-if="uploading">
+        <i class="mdi mdi-loading"></i>
+        <h3 class="text">上传中</h3>
+      </div>
       <div class="preview-row">
         <!-- 预览方块 -->
         <div class="preview-col" v-for="file in fileList" :key="file.id">
           <div class="preview-item">
             <div class="mask">
-              <v-btn color="error" fab small @click="handleRemove(file.id)">
+              <v-btn color="error" fab small @click="removeImage(file)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </div>
             <div class="img-wrapper">
               <img
                 ref="img"
-                :src="createUrl(file)"
+                :src="_createUrl(file)"
                 :alt="file.name"
                 :title="file.id"
               />
@@ -97,6 +101,9 @@ export default {
     document.addEventListener("drop", this.handleDrop)
   },
   methods: {
+    _createUrl(file) {
+      return window.URL.createObjectURL(file)
+    },
     // 点击上传
     handleSelect() {
       /** @type {HTMLInputElement} */
@@ -104,9 +111,6 @@ export default {
       let fileList = input.files
       this.addFiles(fileList)
       input.value = ""
-    },
-    handleRemove(id) {
-      this.fileList = this.fileList.filter(file => file.id !== id)
     },
     // 拖拽上传
     handleDragenter(/** @type {Event} */ e) {
@@ -146,8 +150,12 @@ export default {
     handleSubmitUpload() {
       this.$emit("upload", this.fileList)
     },
-    createUrl(file) {
-      return window.URL.createObjectURL(file)
+    // 移除文件(对外暴露)
+    removeImage(targetFile) {
+      this.fileList = this.fileList.filter(
+        file =>
+          !(file.size === targetFile.size && file.name === targetFile.name)
+      )
     }
   }
 }
@@ -185,6 +193,29 @@ export default {
   max-height: 522px;
   box-sizing: border-box;
   user-select: none;
+  position: relative;
+  overflow: hidden;
+  .uploading-mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    background-color: rgba($color: #ffffff, $alpha: 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2196f3;
+    .mdi {
+      animation: circle 1.5s infinite linear;
+      margin-right: 5px;
+      font-size: 1.5rem;
+    }
+    .text {
+      font-weight: 400;
+    }
+  }
   .preview-item {
     position: relative;
     border-radius: 5px;

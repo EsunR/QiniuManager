@@ -1,13 +1,14 @@
 import request from "../utils/request"
 
-/**
- * @param {Array} imageFileList File 列表
- */
-export function uploadImage(imageFileList) {
+export function uploadImage(files) {
   let formData = new FormData()
-  imageFileList.forEach((file, index) => {
-    formData.append(`Image${index}`, file)
-  })
+  if (files instanceof Array) {
+    files.forEach((file, index) => {
+      formData.append(`Image${index}`, file)
+    })
+  } else {
+    formData.append("Image1", files)
+  }
   return request({
     method: "POST",
     url: "/upload/uploadImage",
