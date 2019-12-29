@@ -1,6 +1,6 @@
 export const sysConfig = {
   host: "localhost",
-  port: 2099,
+  port: 9091,
   pwdSaltRound: 10,
   tokenSalt: "awsl",
   tokenExp: 3600 * 24 * 7, // 7 Days

@@ -19,24 +19,7 @@ export default {
   data() {
     return {
       uploading: false,
-      uploadedList: [
-        {
-          bucket: "novel-system",
-          fsize: 485769,
-          hash: "FikDr3hHBIcGJ6VE9oD6vBZGaRxS",
-          key: "1577597080634.png",
-          name: "6.png",
-          url: "http://study.esunr.xyz/1577597080634.png"
-        },
-        {
-          bucket: "novel-system",
-          fsize: 485769,
-          hash: "FikDr3hHBIcGJ6VE9oD6vBZGaRxx",
-          key: "157759702802634.png",
-          name: "6.png",
-          url: "http://study.esunr.xyz/1577597080634.png"
-        }
-      ]
+      uploadedList: []
     }
   },
   components: {
