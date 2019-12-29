@@ -67,7 +67,7 @@ export default {
 <style lang="scss" scoped>
 .message-wrapper {
   width: 100%;
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   display: flex;
   justify-content: center;

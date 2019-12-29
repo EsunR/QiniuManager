@@ -1,7 +1,7 @@
 <template>
   <v-app id="app-main">
     <!-- 侧边栏 -->
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer id="app-drawer" v-model="drawer" absolute temporary>
       <v-list-item>
         <v-list-item-avatar>
           <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
@@ -28,15 +28,13 @@
 
     <!-- 顶部栏 -->
     <v-app-bar
+      id="app-header"
       absolute
       color="#2E4571"
       dark
       shrink-on-scroll
-      prominent
       :src="this.$global.img"
-      fade-img-on-scroll
-      scroll-threshold="500"
-      app
+      scroll-threshold="200"
       v-if="$route.path !== '/login'"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -83,8 +81,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#app-header {
+  position: fixed;
+}
 #app-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding-top: 130px;
+}
+#app-drawer {
+  position: fixed;
 }
 </style>

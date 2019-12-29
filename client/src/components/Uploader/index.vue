@@ -93,12 +93,18 @@ export default {
     uploading: {
       type: Boolean,
       default: false
+    },
+    className: {
+      type: String,
+      default: ""
     }
   },
   mounted() {
+    // 绑定事件
     document.addEventListener("dragenter", this.handleDragenter)
     document.addEventListener("dragover", this.handleDragover)
     document.addEventListener("drop", this.handleDrop)
+    document.addEventListener("paste", this.handlePaste)
   },
   methods: {
     _createUrl(file) {
@@ -145,6 +151,23 @@ export default {
           })
         })
       })
+    },
+    // 粘贴图片
+    handlePaste(e) {
+      var items = e.clipboardData && e.clipboardData.items
+      var file = null
+      if (items && items.length) {
+        // 检索剪切板items
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf("image") !== -1) {
+            file = items[i].getAsFile()
+            break
+          }
+        }
+      }
+      if (file) {
+        this.$emit("upload", [file])
+      }
     },
     // 上传图片
     handleSubmitUpload() {

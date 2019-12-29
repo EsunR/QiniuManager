@@ -1,22 +1,47 @@
 <template>
   <div id="home">
-    <uploader ref="uploader" @upload="handleUpload" :uploading="uploading" />
+    <Uploader
+      class="uploader"
+      ref="uploader"
+      @upload="handleUpload"
+      :uploading="uploading"
+    />
+    <ImageInfo v-for="item in uploadedList" :key="item.key" :info="item" />
   </div>
 </template>
 
 <script>
 import Uploader from "@/components/Uploader"
+import ImageInfo from "./subcomponents/ImageInfo"
 import { uploadImage } from "@/api/upload"
 export default {
   name: "home",
   data() {
     return {
       uploading: false,
-      uploaded: []
+      uploadedList: [
+        {
+          bucket: "novel-system",
+          fsize: 485769,
+          hash: "FikDr3hHBIcGJ6VE9oD6vBZGaRxS",
+          key: "1577597080634.png",
+          name: "6.png",
+          url: "http://study.esunr.xyz/1577597080634.png"
+        },
+        {
+          bucket: "novel-system",
+          fsize: 485769,
+          hash: "FikDr3hHBIcGJ6VE9oD6vBZGaRxx",
+          key: "157759702802634.png",
+          name: "6.png",
+          url: "http://study.esunr.xyz/1577597080634.png"
+        }
+      ]
     }
   },
   components: {
-    Uploader
+    Uploader,
+    ImageInfo
   },
   methods: {
     async handleUpload(files) {
@@ -26,30 +51,19 @@ export default {
         try {
           let res = await uploadImage(file)
           this.$refs.uploader.removeImage(file)
-          this.uploaded.push(res.data[0])
+          this.uploadedList.unshift(res.data[0])
         } catch (e) {
           console.log(e)
         }
       }
       this.uploading = false
-      //   uploadImage(files)
-      //     .then(res => {
-      //       const costTime = new Date() - startTime
-      //       const delayTime = 1500 - costTime > 0 ? 1500 - costTime : 0
-      //       const { data } = res
-      //       setTimeout(() => {
-      //         this.uploading = false
-      //         data.forEach(imgInfo => {
-      //           this.uploaded.push(imgInfo)
-      //         })
-      //       }, delayTime)
-      //     })
-      //     .catch(() => {
-      //       this.uploading = false
-      //     })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.uploader {
+  margin-top: 20px;
+}
+</style>
