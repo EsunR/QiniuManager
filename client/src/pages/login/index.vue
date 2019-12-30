@@ -38,6 +38,7 @@ export default {
   width: 100%;
   height: calc(100vh - 30px);
   margin: 0 auto;
+  margin-top: -130px;
   display: flex;
   justify-content: center;
   align-items: center;

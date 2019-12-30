@@ -9,6 +9,7 @@ import dbGenerator from "./db/db_generator"
 import koaJwt from "koa-jwt"
 import koaStatic from "koa-static"
 import path from "path"
+import koaCompress from "koa-compress"
 
 const app: Koa = new Koa()
 const router: Router = new Router()
@@ -19,6 +20,7 @@ dbGenerator()
 // Middle Wear
 app.use(errorHandler())
 app.use(cors())
+app.use(koaCompress({ threshold: 2048 }))
 app.use(koaStatic(path.join(__dirname, "./static")))
 app.use(
   KoaBody({
@@ -52,5 +54,5 @@ router.use("/api/upload", uploadRouter)
 app.use(router.routes()).use(router.allowedMethods())
 
 // Listen
-app.listen(sysConfig.port, sysConfig.host)
-console.log(`serve running on http://${sysConfig.host}:${sysConfig.port}`)
+app.listen(sysConfig.port)
+console.log(`serve running on port ${sysConfig.port}`)

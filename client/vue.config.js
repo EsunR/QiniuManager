@@ -5,6 +5,10 @@ function resolve(dir) {
 }
 
 module.exports = {
+  outputDir: "../serve/src/static",
+  devServer: {
+    proxy: "http://localhost:9091"
+  },
   configureWebpack: {
     resolve: {
       alias: {
