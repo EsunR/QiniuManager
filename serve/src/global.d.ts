@@ -1,3 +1,3 @@
-interface Error {
-  status: number
-}
+// interface Error {
+//   status: number
+// }

@@ -9,8 +9,7 @@ class UserController {
   async register(ctx: Koa.Context) {
     let { name, password } = ctx.request.body
     if ((await User.findByName(name)) !== null) {
-      const e = new Error("用户名已被注册")
-      e.status = 400
+      const e = new Error("400-用户名已被注册")
       throw e
     }
     let user = await User.createUser(name, password)
@@ -21,8 +20,7 @@ class UserController {
     let { name, password } = ctx.request.body
     let user = await User.findByName(name)
     if (user === null) {
-      let e = new Error("用户名错误")
-      e.status = 400
+      let e = new Error("400-用户名错误")
       throw e
     }
     let result = bcypt.verify(password, user.password)
@@ -56,7 +54,6 @@ class UserController {
       })
     } else {
       let e = new Error("未找到相关用户信息")
-      // e.status = 404
       throw e
     }
   }

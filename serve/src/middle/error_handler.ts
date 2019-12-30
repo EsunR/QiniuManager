@@ -6,7 +6,15 @@ export default function() {
     try {
       await next()
     } catch (err) {
-      ctx.status = err.status || 500
+      // 判断是否携带有错误码
+      const messageArr = err.message.split("-")
+      if (messageArr.length > 0 && !isNaN(parseInt(messageArr[0]))) {
+        ctx.status = messageArr[0]
+        err.message = messageArr[1]
+      } else {
+        ctx.status = 500
+      }
+      // 返回错误
       ctx.body = new ResBody({
         success: false,
         msg: err.message

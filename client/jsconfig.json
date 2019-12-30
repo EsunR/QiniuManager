@@ -1,4 +1,5 @@
 {
+  // VSCode 读取 alias 配置
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {

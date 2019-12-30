@@ -7,8 +7,7 @@ export default function() {
       const { tokenId } = ctx.state.user
       if ((await Token.hasToken(tokenId)) === false) {
         const e = new Error()
-        e.message = "Token 已过期"
-        e.status = 401
+        e.message = "401-Token 已过期"
         throw e
       } else {
         await next()
