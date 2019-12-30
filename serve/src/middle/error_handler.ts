@@ -9,7 +9,7 @@ export default function() {
       // 判断是否携带有错误码
       const messageArr = err.message.split("-")
       if (messageArr.length > 0 && !isNaN(parseInt(messageArr[0]))) {
-        ctx.status = messageArr[0]
+        ctx.status = parseInt(messageArr[0])
         err.message = messageArr[1]
       } else {
         ctx.status = 500

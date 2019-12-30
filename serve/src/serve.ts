@@ -44,13 +44,15 @@ app.use(tokenChecker())
 
 // Router
 import userRouter from "./routers/user_router"
-import uploadRouter from "./routers/upload_router"
+import imageRouter from "./routers/image_router"
+import keyRouter from "./routers/key_router"
 router.get("/api/test", async (ctx: Koa.Context, next: Koa.Next) => {
   ctx.body = "api serve is ok!"
   await next()
 })
 router.use("/api/user", userRouter)
-router.use("/api/upload", uploadRouter)
+router.use("/api/image", imageRouter)
+router.use("/api/key", keyRouter)
 app.use(router.routes()).use(router.allowedMethods())
 
 // Listen

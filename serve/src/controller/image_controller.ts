@@ -1,6 +1,5 @@
 import Koa from "koa"
 import ResBody from "../struct/ResBody"
-import crypto from "crypto"
 import { getImageUploadToken, uploadFile } from "../utils/qiniu"
 
 class UploadController {
