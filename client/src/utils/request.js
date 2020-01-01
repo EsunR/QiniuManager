@@ -11,9 +11,8 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // 由于 Token 是动态刷新的所以在每次请求前都要重新取 Token
-    config.headers.common["Authorization"] = window.localStorage.getItem(
-      "token"
-    )
+    const token = window.localStorage.getItem("token")
+    config.headers.common["Authorization"] = token
     return config
   },
   error => {

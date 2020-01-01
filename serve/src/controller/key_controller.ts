@@ -3,6 +3,12 @@ import QiniuKey from "../model/qiniuKey_model"
 import ResBody from "../struct/ResBody"
 
 class KeyController {
+  async getQiniuKeys(ctx: Koa.Context) {
+    const userId: number = ctx.state.user.userId
+    let keys = await QiniuKey.getUserKeys(userId)
+    ctx.body = new ResBody({ data: keys })
+  }
+
   async addQiniuKey(ctx: Koa.Context) {
     const userId: number = ctx.state.user.userId
     const {
@@ -10,13 +16,8 @@ class KeyController {
       publicKey,
       privateKey,
       bucket,
-      domain
-    }: {
-      name: string
-      publicKey: string
-      privateKey: string
-      bucket: string
-      domain: string
+      domain,
+      zone
     } = ctx.request.body
     try {
       let key = await QiniuKey.createKey(
@@ -25,7 +26,8 @@ class KeyController {
         publicKey,
         privateKey,
         bucket,
-        domain
+        domain,
+        zone
       )
       ctx.body = new ResBody({ data: key })
     } catch (error) {
@@ -47,13 +49,33 @@ class KeyController {
     }
   }
 
-  async getQiniuKeys(ctx: Koa.Context) {
+  async updateQiniuKey(ctx: Koa.Context) {
     const userId: number = ctx.state.user.userId
-    let keys = await QiniuKey.getUserKeys(userId)
-    ctx.body = new ResBody({ data: keys })
+    const {
+      id,
+      name,
+      publicKey,
+      privateKey,
+      bucket,
+      domain,
+      zone
+    } = ctx.request.body
+    let result = await QiniuKey.updateKey(
+      id,
+      userId,
+      name,
+      publicKey,
+      privateKey,
+      bucket,
+      domain,
+      zone
+    )
+    if (result) {
+      ctx.body = new ResBody({})
+    } else {
+      throw new Error("400-更新失败，请检查修改信息")
+    }
   }
-
-  // TODO: 修改 token 记录
 }
 
 export default new KeyController()

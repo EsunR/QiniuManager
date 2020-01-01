@@ -13,7 +13,7 @@
 <script>
 import Uploader from "@/components/Uploader"
 import ImageInfo from "./subcomponents/ImageInfo"
-import { uploadImage } from "@/api/upload"
+import { uploadImage } from "@/api/image"
 export default {
   name: "home",
   data() {
@@ -45,8 +45,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.uploader {
-  margin-top: 20px;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -56,9 +56,12 @@ export default {
   position: fixed;
 }
 #app-container {
+  position: relative;
+  min-height: calc(100% - 20px);
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 130px;
+  margin-top: 20px;
 }
 #app-drawer {
   position: fixed;

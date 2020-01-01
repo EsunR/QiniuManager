@@ -11,7 +11,7 @@ export function uploadImage(files) {
   }
   return request({
     method: "POST",
-    url: "/upload/uploadImage",
+    url: "/image/uploadImage",
     data: formData
   })
 }

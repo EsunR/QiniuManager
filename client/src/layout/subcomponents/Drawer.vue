@@ -17,12 +17,21 @@
     <v-divider></v-divider>
 
     <v-list dense>
-      <v-list-item link>
+      <v-list-item link @click="goto('home')">
         <v-list-item-icon>
           <v-icon>mdi-home-variant</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>主页</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item link @click="goto('keyManage')">
+        <v-list-item-icon>
+          <v-icon>mdi-key</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Key 管理</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -77,6 +86,9 @@ export default {
     }
   },
   methods: {
+    goto(name) {
+      this.$router.push({ name })
+    },
     handleLogout() {
       window.localStorage.removeItem("token")
       this.$router.push({ name: "login" })

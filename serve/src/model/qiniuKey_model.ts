@@ -23,6 +23,7 @@ class QiniuKey extends Model {
   public privateKey!: string
   public bucket!: string
   public domain!: string
+  public zone!: string
   public createdAt!: Date
   public updateAt!: Date
   public deleted!: number
@@ -33,7 +34,8 @@ class QiniuKey extends Model {
     publicKey: string,
     privateKey: string,
     bucket: string,
-    domain: string
+    domain: string,
+    zone: string
   ): Promise<QiniuKey> {
     const key = QiniuKey.build({
       userId,
@@ -41,7 +43,8 @@ class QiniuKey extends Model {
       publicKey,
       privateKey,
       bucket,
-      domain
+      domain,
+      zone
     })
     return key.save()
   }
@@ -59,7 +62,10 @@ class QiniuKey extends Model {
   }
 
   static getUserKeys(userId: number): Promise<[QiniuKey]> {
-    return QiniuKey.findAll({ where: { userId, deleted: 0 } })
+    return QiniuKey.findAll({
+      where: { userId, deleted: 0 },
+      order: [["createdAt", "DESC"]]
+    })
   }
 
   static async updateKey(
@@ -69,10 +75,11 @@ class QiniuKey extends Model {
     publicKey: string,
     privateKey: string,
     bucket: string,
-    domain: string
+    domain: string,
+    zone: string
   ): Promise<boolean> {
     let effectLine = await QiniuKey.update(
-      { name, publicKey, privateKey, bucket, domain },
+      { name, publicKey, privateKey, bucket, domain, zone },
       { where: { id, userId } }
     )
     if (effectLine[0] === 1) {
@@ -114,6 +121,10 @@ QiniuKey.init(
       allowNull: false
     },
     domain: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    zone: {
       type: DataTypes.STRING,
       allowNull: false
     },

@@ -15,6 +15,10 @@ const Message = function(options = {}) {
   }
   // 设置 id 并实例化组件
   let id = "message_" + seed++
+  let userOnClose = options.onClose
+  options.onClose = function() {
+    Message.close(id, userOnClose)
+  }
   instance = new MessageConstructor({
     data: options
   })
@@ -29,12 +33,6 @@ const Message = function(options = {}) {
     verticalOffset += item.$el.offsetHeight + 16
   })
   instance.verticalOffset = verticalOffset
-
-  // 弹窗关闭时触发的函数
-  let userOnClose = options.onClose
-  options.onClose = function() {
-    Message.close(id, userOnClose)
-  }
 
   instances.push(instance)
   return instance
