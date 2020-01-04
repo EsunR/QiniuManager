@@ -1,6 +1,6 @@
 <template>
   <div class="uploader-input">
-    <input type="text" @change="handleChange" />
+    <input :placeholder="placeholder" type="text" @change="handleChange" />
   </div>
 </template>
 
@@ -10,6 +10,12 @@ export default {
   model: {
     prop: "value",
     event: "change"
+  },
+  props: {
+    placeholder: {
+      type: String,
+      default: ""
+    }
   },
   methods: {
     handleChange(e) {

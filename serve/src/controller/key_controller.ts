@@ -71,7 +71,7 @@ class KeyController {
       zone
     )
     if (result) {
-      ctx.body = new ResBody({})
+      ctx.body = new ResBody({ data: result })
     } else {
       throw new Error("400-更新失败，请检查修改信息")
     }

@@ -1,11 +1,11 @@
 interface options {
   success?: boolean
-  data?: object | null | undefined
+  data?: any
   msg?: string | null | undefined
 }
 export default class ResBody {
   success: boolean
-  data: object
+  data: any
   msg: string
   constructor(options: options) {
     if (options.success === undefined) {

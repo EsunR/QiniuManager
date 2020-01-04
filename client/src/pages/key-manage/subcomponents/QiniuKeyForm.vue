@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { deepCopy } from "@/utils"
 export default {
   name: "QiniuKeyForm",
   data() {
@@ -71,9 +72,33 @@ export default {
       ]
     }
   },
+  props: {
+    defaultData: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  watch: {
+    defaultData(newVal) {
+      if (newVal.id) {
+        this.formData = deepCopy(this.defaultData)
+      }
+    }
+  },
+  mounted() {
+    if (this.defaultData.id) {
+      this.formData = deepCopy(this.defaultData)
+    }
+  },
   methods: {
     handleSubmit() {
       this.$emit("onSubmit", this.formData)
+    },
+    validate() {
+      return this.$refs.form.validate()
+    },
+    reset() {
+      this.$refs.form.reset()
     }
   }
 }

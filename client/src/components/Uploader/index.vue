@@ -55,9 +55,13 @@
     <div class="opration card">
       <div class="left-wrapper">
         <transition name="fade">
-          <!-- <Input v-if="!uploading" v-model="inputValue" /> -->
-          <div v-if="!uploading" class="tips">
-            Tips: 支持剪切板上传（当前版本 β）
+          <div class="slot-wrapper" v-if="!uploading">
+            <Input
+              placeholder="输入图片url"
+              v-if="!uploading"
+              v-model="inputValue"
+            />
+            <slot></slot>
           </div>
           <Process :success="!uploading" v-else />
         </transition>
@@ -76,13 +80,13 @@
 
 <script>
 import Button from "./subcomponents/Button"
-// import Input from "./subcomponents/Input"
+import Input from "./subcomponents/Input"
 import Process from "./subcomponents/Process"
 export default {
   name: "Uploader",
   components: {
     Button,
-    // Input,
+    Input,
     Process
   },
   data() {
@@ -312,11 +316,13 @@ export default {
   overflow: hidden;
   .left-wrapper {
     width: 100%;
+    height: 50px;
     padding-right: 20px;
-    .tips {
+    .slot-wrapper {
+      display: flex;
+      flex-wrap: nowrap;
       color: rgba($color: #000000, $alpha: 0.6);
       height: 100%;
-      line-height: 34px;
     }
   }
 }

@@ -73,6 +73,7 @@ export default {
   justify-content: center;
   color: #fff;
   transition: all ease 0.3s;
+  z-index: 999;
 }
 .message {
   display: flex;

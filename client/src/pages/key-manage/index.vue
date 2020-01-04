@@ -35,33 +35,72 @@
             <v-card-title>{{ item.name }}</v-card-title>
             <v-card-subtitle>
               <span>{{ getZone(item.zone) }}</span>
-              {{ item.domain }}</v-card-subtitle
-            >
+              {{ item.domain }}
+            </v-card-subtitle>
             <v-divider class="mx-4"></v-divider>
             <v-card-text class="black--text">
               <div class="key-info">
-                <strong>Bucket:</strong> {{ item.bucket }}
+                <strong>Bucket:</strong>
+                {{ item.bucket }}
               </div>
               <div class="key-info">
-                <strong>AK:</strong> {{ item.publicKey }}
+                <strong>AK:</strong>
+                {{ item.publicKey }}
               </div>
               <div class="key-info">
-                <strong>SK:</strong> {{ item.privateKey }}
+                <strong>SK:</strong>
+                {{ item.privateKey }}
               </div>
             </v-card-text>
-            <v-card-actions>
-              <v-btn color="primary" text>修改内容</v-btn>
+            <v-card-actions class="btn-wrapper">
+              <v-btn text color="primary" @click="handleUpdateClick(item)"
+                >修改内容</v-btn
+              >
               <v-btn text @click="handleDelete(item.id)">删除</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
       </transition-group>
     </v-row>
+
+    <!-- 占位框 -->
+    <v-card
+      v-if="qiniuKeys.length === 0"
+      elevation="2"
+      class="placeholder-card"
+      outlined
+    >
+      这里什么都没有咩 (｀･ω･´) (´･ω･｀)
+    </v-card>
+
+    <!-- 模态框 -->
+    <v-dialog v-model="dialogVisiable" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">修改信息</span>
+        </v-card-title>
+        <v-card-text>
+          <QiniuKeyForm :defaultData="selectedItem" ref="updateForm" />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialogVisiable = false">关闭</v-btn>
+          <v-btn
+            :loading="updateBtnLoading"
+            color="blue darken-1"
+            text
+            @click="handleSubmitUpdate"
+            >保存修改</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import QiniuKeyForm from "./subcomponents/QiniuKeyForm"
+import { pick } from "@/utils"
 export default {
   name: "keyManage",
   components: {
@@ -69,7 +108,9 @@ export default {
   },
   data() {
     return {
-      deleteDialog: false
+      dialogVisiable: false,
+      selectedItem: {},
+      updateBtnLoading: false
     }
   },
   computed: {
@@ -78,19 +119,6 @@ export default {
     }
   },
   methods: {
-    handleAddQiniuKey() {
-      let form = this.$refs.addForm.$refs.form
-      let formData = this.$refs.addForm.formData
-      if (form.validate()) {
-        this.$store.dispatch("key/addQiniuKey", formData)
-        this.$message("添加成功")
-      } else {
-        this.$message({
-          type: "error",
-          message: "请输入完整表单内容"
-        })
-      }
-    },
     getZone(zondeCode) {
       switch (zondeCode) {
         case "z0":
@@ -105,15 +133,64 @@ export default {
           return "unknow"
       }
     },
+    handleAddQiniuKey() {
+      let form = this.$refs.addForm
+      let formData = form.formData
+      if (form.validate()) {
+        this.$store.dispatch("key/addQiniuKey", formData).then(() => {
+          this.$message("添加成功")
+          form.reset()
+        })
+      } else {
+        this.$message({
+          type: "error",
+          message: "请输入完整表单内容"
+        })
+      }
+    },
     handleDelete(id) {
       this.$alert({
         title: "确认操作",
         content: "您确定要删除当前的 Key 吗？",
         callback: () => {
-          this.$store.dispatch("key/delQiniuKey", id)
-          this.$message("删除成功")
+          this.$store.dispatch("key/delQiniuKey", id).then(() => {
+            this.$message("删除成功")
+          })
         }
       })
+    },
+    handleUpdateClick(item) {
+      const selectedItem = pick(item, [
+        "id",
+        "name",
+        "publicKey",
+        "privateKey",
+        "bucket",
+        "domain",
+        "zone"
+      ])
+      this.selectedItem = selectedItem
+      this.dialogVisiable = true
+    },
+    handleSubmitUpdate() {
+      const form = this.$refs.updateForm
+      console.log(form.formData)
+      console.log(this.selectedItem)
+      if (JSON.stringify(form.formData) === JSON.stringify(this.selectedItem)) {
+        this.dialogVisiable = false
+        this.$message("信息未修改")
+        this.updateBtnLoading = false
+      } else {
+        this.$store
+          .dispatch("key/updateQiniuKey", form.formData)
+          .then(() => {
+            this.dialogVisiable = false
+            this.$message("修改成功")
+          })
+          .finally(() => {
+            this.updateBtnLoading = false
+          })
+      }
     }
   }
 }
@@ -148,7 +225,17 @@ export default {
     padding: 10px 0;
   }
   .key-info {
-    padding: 2px 0;
+    padding: 10px 0;
   }
+  .btn-wrapper {
+    margin-top: -15px;
+  }
+}
+
+.placeholder-card {
+  text-align: center;
+  padding: 20px;
+  margin-top: 10px;
+  color: rgba($color: #000000, $alpha: 0.6);
 }
 </style>

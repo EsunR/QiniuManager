@@ -24,3 +24,17 @@ export function deepCopy(target) {
   }
   return _deepCopy(target)
 }
+
+/**
+ * 提取对象的 key 值（深拷贝）
+ * @param {Object} object
+ * @param {Array} keys
+ */
+export function pick(object, keys) {
+  const cpObject = deepCopy(object)
+  let result = {}
+  keys.forEach(key => {
+    result[key] = cpObject[key]
+  })
+  return result
+}

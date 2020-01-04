@@ -77,13 +77,18 @@ class QiniuKey extends Model {
     bucket: string,
     domain: string,
     zone: string
-  ): Promise<boolean> {
+  ): Promise<boolean | QiniuKey> {
     let effectLine = await QiniuKey.update(
       { name, publicKey, privateKey, bucket, domain, zone },
       { where: { id, userId } }
     )
     if (effectLine[0] === 1) {
-      return true
+      let newData = await QiniuKey.findOne({ where: { id } })
+      if (newData !== null) {
+        return newData
+      } else {
+        return false
+      }
     } else {
       return false
     }

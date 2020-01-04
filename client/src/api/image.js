@@ -1,7 +1,9 @@
 import request from "../utils/request"
 
-export function uploadImage(files) {
+export function uploadImage(files, qiniuKey, webp) {
   let formData = new FormData()
+  formData.append("qiniuKey", qiniuKey)
+  formData.append("webp", webp)
   if (files instanceof Array) {
     files.forEach((file, index) => {
       formData.append(`Image${index}`, file)

@@ -27,15 +27,16 @@ export default {
 
 <style lang="scss" scoped>
 .uploader-btn {
-  background-color: #2196f3;
+  background-color: #1976d2;
   color: #fff;
-  padding: 5px 20px;
+  padding: 6px 20px;
   border-radius: 5px;
   display: inline-block;
   box-shadow: 0 2px 3px rgba($color: #000000, $alpha: 0.3);
   cursor: pointer;
   outline: none;
   white-space: nowrap;
+  height: 47px;
   &:hover {
     background-color: #319ef7;
     user-select: none;
