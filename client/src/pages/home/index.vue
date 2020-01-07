@@ -73,6 +73,7 @@ export default {
       this.uploading = true
       for (let file of files) {
         try {
+          console.log(Object.prototype.toString.call(file))
           // 每张图片排队调用上传接口，防止集体同时上传造成服务器长时间延迟
           let res = await uploadImage(file, this.qiniuKey, this.webp)
           this.$refs.uploader.removeImage(file)
