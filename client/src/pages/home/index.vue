@@ -69,11 +69,18 @@ export default {
       window.localStorage.setItem("qiniuKey", this.qiniuKey)
     },
     async handleUpload(files) {
-      // TODO: 校验选择的 key 是否有效
+      // 检查 localstroage 中存放的 key 是否有效
+      const qiniuKeyIds = this.qiniuKeys.map(key => key.value)
+      if (qiniuKeyIds.indexOf(this.qiniuKey) === -1) {
+        return this.$message({
+          type: "error",
+          message: "请选择一个有效的Upload Key"
+        })
+      }
       this.uploading = true
       for (let file of files) {
         try {
-          console.log(Object.prototype.toString.call(file))
+          // 判断是否需要转为 webp 上传
           // 每张图片排队调用上传接口，防止集体同时上传造成服务器长时间延迟
           let res = await uploadImage(file, this.qiniuKey, this.webp)
           this.$refs.uploader.removeImage(file)
