@@ -1,4 +1,6 @@
 import { fetchUserInfo } from "@/api/user"
+import router from "@/router"
+import Message from "@/components/Message/main"
 
 const state = {
   login: false,
@@ -24,7 +26,14 @@ const actions = {
         commit("SET_LOGIN", true)
       })
       .catch(err => {
-        console.log(err)
+        console.log("action getuserinfo error:", err)
+        // 获取用户信息出错，强行登出
+        window.localStorage.removeItem("token")
+        router.push({ name: "login" })
+        Message({
+          type: "error",
+          message: "登录异常，请重新登录"
+        })
       })
   }
 }

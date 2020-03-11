@@ -10,6 +10,7 @@ import koaJwt from "koa-jwt"
 import koaStatic from "koa-static"
 import path from "path"
 import koaCompress from "koa-compress"
+import history from "koa2-connect-history-api-fallback"
 
 const app: Koa = new Koa()
 const router: Router = new Router()
@@ -20,8 +21,13 @@ dbGenerator()
 // Middle Wear
 app.use(errorHandler())
 app.use(cors())
+app.use(history({ whiteList: ["/api"] }))
 app.use(koaCompress({ threshold: 2048 }))
-app.use(koaStatic(path.join(__dirname, "./static")))
+app.use(
+  koaStatic(path.join(__dirname, "../static"), {
+    gzip: true
+  })
+)
 app.use(
   KoaBody({
     multipart: true,

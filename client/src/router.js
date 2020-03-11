@@ -5,6 +5,7 @@ import store from "@/store"
 Vue.use(Router)
 
 const router = new Router({
+  mode: "history",
   routes: [
     {
       path: "/",
@@ -30,7 +31,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   let token = window.localStorage.getItem("token")
-  // 当跳转的页面不是登录页面，并且没有 Token
+  // 当跳转的页面不是登录页面，并且没有 Token，说明用户此时未登录
   // 就强行重定向至登录页面
   if (to.name !== "login" && !token) {
     console.log("路由重定向")

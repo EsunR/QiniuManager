@@ -5,7 +5,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-  outputDir: "../serve/src/static",
+  outputDir: "../server/static",
   devServer: {
     proxy: "http://localhost:9091"
   },

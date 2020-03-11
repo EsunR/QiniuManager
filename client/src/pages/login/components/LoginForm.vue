@@ -52,9 +52,8 @@ export default {
           const { token } = res.data
           // 设置 token
           window.localStorage.setItem("token", token)
-          this.$store.dispatch("user/getUserInfo")
+          // PS: 在此无需要 fetch 用户信息，由登录页面跳转到其他页面后会自动获取用户信息（详见 router.js）
           this.$message("登录成功, 正在跳转")
-          // 获取用户信息
           setTimeout(() => {
             this.$router.push("/home")
           }, 1000)
